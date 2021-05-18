@@ -30,15 +30,9 @@ class MlVisionHandler implements MethodCallHandler {
   @Override
   public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
     switch (call.method) {
-      case "BarcodeDetector#detectInImage":
-      case "FaceDetector#processImage":
-      case "ImageLabeler#processImage":
       case "TextRecognizer#processImage":
         handleDetection(call, result);
         break;
-      case "BarcodeDetector#close":
-      case "FaceDetector#close":
-      case "ImageLabeler#close":
       case "TextRecognizer#close":
         closeDetector(call, result);
         break;
@@ -61,15 +55,6 @@ class MlVisionHandler implements MethodCallHandler {
     Detector detector = getDetector(call);
     if (detector == null) {
       switch (call.method.split("#")[0]) {
-        case "BarcodeDetector":
-          detector = new GMLKBarcodeDetector(options);
-          break;
-        case "FaceDetector":
-          detector = new GMLKFaceDetector(options);
-          break;
-        case "ImageLabeler":
-          detector = new GMLKImageLabeler(options);
-          break;
         case "TextRecognizer":
           detector = new GMLKTextRecognizer(options);
           break;

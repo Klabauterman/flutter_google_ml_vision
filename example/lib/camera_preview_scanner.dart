@@ -5,9 +5,9 @@
 // @dart=2.9
 
 import 'package:camera/camera.dart';
-import 'package:google_ml_vision/google_ml_vision.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:google_ml_vision/google_ml_vision.dart';
 
 import 'detector_painters.dart';
 import 'scanner_utils.dart';
@@ -26,10 +26,6 @@ class _CameraPreviewScannerState extends State<CameraPreviewScanner> {
   bool _isDetecting = false;
   CameraLensDirection _direction = CameraLensDirection.back;
 
-  final BarcodeDetector _barcodeDetector =
-      GoogleVision.instance.barcodeDetector();
-  final FaceDetector _faceDetector = GoogleVision.instance.faceDetector();
-  final ImageLabeler _imageLabeler = GoogleVision.instance.imageLabeler();
   final TextRecognizer _recognizer = GoogleVision.instance.textRecognizer();
 
   @override
@@ -80,13 +76,18 @@ class _CameraPreviewScannerState extends State<CameraPreviewScanner> {
       case Detector.text:
         return _recognizer.processImage;
       case Detector.barcode:
-        return _barcodeDetector.detectInImage;
-      case Detector.label:
-        return _imageLabeler.processImage;
+        // TODO: Handle this case.
+        break;
       case Detector.face:
-        return _faceDetector.processImage;
+        // TODO: Handle this case.
+        break;
+      case Detector.label:
+        // TODO: Handle this case.
+        break;
+      case Detector.cloudLabel:
+        // TODO: Handle this case.
+        break;
     }
-
     return null;
   }
 
@@ -107,22 +108,6 @@ class _CameraPreviewScannerState extends State<CameraPreviewScanner> {
     );
 
     switch (_currentDetector) {
-      case Detector.barcode:
-        if (_scanResults is! List<Barcode>) return noResultsText;
-        painter = BarcodeDetectorPainter(imageSize, _scanResults);
-        break;
-      case Detector.face:
-        if (_scanResults is! List<Face>) return noResultsText;
-        painter = FaceDetectorPainter(imageSize, _scanResults);
-        break;
-      case Detector.label:
-        if (_scanResults is! List<ImageLabel>) return noResultsText;
-        painter = LabelDetectorPainter(imageSize, _scanResults);
-        break;
-      case Detector.cloudLabel:
-        if (_scanResults is! List<ImageLabel>) return noResultsText;
-        painter = LabelDetectorPainter(imageSize, _scanResults);
-        break;
       default:
         assert(_currentDetector == Detector.text);
         if (_scanResults is! VisionText) return noResultsText;
@@ -218,9 +203,6 @@ class _CameraPreviewScannerState extends State<CameraPreviewScanner> {
   @override
   void dispose() {
     _camera.dispose().then((_) {
-      _barcodeDetector.close();
-      _faceDetector.close();
-      _imageLabeler.close();
       _recognizer.close();
     });
 

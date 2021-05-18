@@ -20,9 +20,6 @@ Plugin for Google ML Kit
   s.source_files = 'Classes/**/*'
   s.public_header_files = 'Classes/**/*.h'
   s.dependency 'Flutter'
-  s.dependency 'GoogleMLKit/BarcodeScanning'
-  s.dependency 'GoogleMLKit/FaceDetection'
-  s.dependency 'GoogleMLKit/ImageLabeling'
   s.dependency 'GoogleMLKit/TextRecognition'
   s.ios.deployment_target = '10.0'
   s.static_framework = true

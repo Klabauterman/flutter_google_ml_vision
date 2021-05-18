@@ -6,14 +6,10 @@
 
 import 'dart:ui' as ui;
 
-import 'package:google_ml_vision/google_ml_vision.dart';
 import 'package:flutter/material.dart';
+import 'package:google_ml_vision/google_ml_vision.dart';
 
 enum Detector {
-  barcode,
-  face,
-  label,
-  cloudLabel,
   text,
 }
 
